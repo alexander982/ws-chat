@@ -2,7 +2,7 @@
 
 generated using Luminus version "2.9.10.79"
 
-FIXME
+A simple websocket chat
 
 ## Prerequisites
 
@@ -16,6 +16,11 @@ To start a web server for the application, run:
 
     lein run
 
-## License
+To start from repl:
 
-Copyright © 2018 FIXME
+	lein repl
+
+When repl started, type:
+	
+	(start)
+
