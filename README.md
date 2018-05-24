@@ -4,6 +4,11 @@ generated using Luminus version "2.9.10.79"
 
 A simple websocket chat
 
+## Features
+
+- Frontend and backend in clojure
+- History on client side using IndexedDB
+
 ## Prerequisites
 
 You will need [Leiningen][1] 2.0 or above installed.
