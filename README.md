@@ -12,15 +12,23 @@ You will need [Leiningen][1] 2.0 or above installed.
 
 ## Running
 
+Before starting web server you need to compile clojurescript
+
+    lein cljsbuild once
+
 To start a web server for the application, run:
 
     lein run
 
-To start from repl:
+To start from repl, first run:
 
-	lein repl
+    lein figwheel
+    
+Then in ather console type:
 
-When repl started, type:
+    lein repl
+
+When repl is started, type:
 	
-	(start)
+    (start)
 
