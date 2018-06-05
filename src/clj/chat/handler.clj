@@ -1,8 +1,9 @@
 (ns chat.handler
-  (:require [compojure.core :refer [routes wrap-routes]]
+  (:require [clojure.tools.logging :as log]
+            [compojure.core :refer [routes wrap-routes]]
             [chat.layout :refer [error-page]]
             [chat.routes.home :refer [home-routes]]
-            [chat.routes.websockets :refer [websocket-routes]]
+            [chat.routes.chat :refer [chat-routes]]
             [compojure.route :as route]
             [chat.env :refer [defaults]]
             [mount.core :as mount]
@@ -12,9 +13,21 @@
                 :start ((or (:init defaults) identity))
                 :stop  ((or (:stop defaults) identity)))
 
+(defn init
+  []
+  (doseq [component (:started (mount/start))]
+    (log/info component "started")))
+
+(defn destroy
+  []
+  (doseq [component (:started (mount/start))]
+    (log/info component "stopped"))
+  (shutdown-agents)
+  (log/info "chat has shut down!"))
+
 (def app-routes
   (routes
-   websocket-routes
+   chat-routes
    (-> #'home-routes
        (wrap-routes middleware/wrap-csrf)
        (wrap-routes middleware/wrap-formats))
@@ -24,4 +37,4 @@
                   :title "page not found"})))))
 
 
-(defn app [] (middleware/wrap-base #'app-routes))
+(def app (middleware/wrap-base #'app-routes))
