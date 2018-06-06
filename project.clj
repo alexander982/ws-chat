@@ -49,7 +49,13 @@
             :name "chat.war"}
   :aliases {"uberwar" ["update-in" ":" "assoc" ":source-paths"
                        "[\"src/clj\" \"war/clj\" \"env/prod/clj\"]"
-                       "--" "uberwar"]}
+                       "--" "uberwar"]
+            "repl" ["update-in" ":" "assoc" ":source-paths"
+                    "[\"src/clj\" \"jar/clj\" \"env/dev/clj\"]"
+                    "--" "repl"]
+            "uberjar" ["update-in" ":" "assoc" ":source-paths"
+                       "[\"src/clj\" \"jar/clj\" \"env/prod/clj\"]"
+                       "--" "uberjar"]}
 
   
   :cljsbuild
