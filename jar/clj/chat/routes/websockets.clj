@@ -1,6 +1,5 @@
 (ns chat.routes.websockets
-  (:require [compojure.core :as cc]
-            [clojure.tools.logging :as log]
+  (:require [clojure.tools.logging :as log]
             [immutant.web.async :as async]
             [cheshire.core :as ch]))
 
@@ -42,7 +41,3 @@
   (log/info "inside ws-handler")
   (async/as-channel request websocket-callbacks))
 
-(cc/defroutes websocket-routes
-  (cc/GET "/wschat" [name]
-          (reset! user-name name)
-          ws-handler))

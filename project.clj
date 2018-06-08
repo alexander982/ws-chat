@@ -20,13 +20,15 @@
                  [compojure "1.5.1"]
                  [ring-webjars "0.1.1"]
                  [ring/ring-defaults "0.2.1"]
+                 [ring/ring-servlet "1.4.0"]
                  [mount "0.1.10"]
                  [cprop "0.1.8"]
                  [org.clojure/tools.cli "0.3.5"]
                  [luminus-nrepl "0.1.4"]
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
                  [luminus-immutant "0.2.2"]
-                 [cheshire "5.5.0"]]
+                 [cheshire "5.5.0"]
+                 [javax/javaee-web-api "7.0" :scope "provided"]]
 
   :min-lein-version "2.0.0"
 
@@ -38,7 +40,23 @@
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-immutant "2.1.0"]
+            [lein-uberwar "0.2.0"]
             [lein-cljsbuild "1.1.3"]]
+
+  :uberwar {:handler chat.handler/app
+            :init chat.handler/init
+            :destroy chat.handler/destroy
+            :name "chat.war"}
+  :aliases {"uberwar" ["update-in" ":" "assoc" ":source-paths"
+                       "[\"src/clj\" \"war/clj\" \"env/prod/clj\"]"
+                       "--" "uberwar"]
+            "repl" ["update-in" ":" "assoc" ":source-paths"
+                    "[\"src/clj\" \"jar/clj\" \"env/dev/clj\"]"
+                    "--" "repl"]
+            "uberjar" ["update-in" ":" "assoc" ":source-paths"
+                       "[\"src/clj\" \"jar/clj\" \"env/prod/clj\"]"
+                       "--" "uberjar"]}
+
   
   :cljsbuild
   {:builds
@@ -54,7 +72,7 @@
       :source-map true
       :pretty-print true}}
     :min
-    {:source-paths ["src/cljs"]
+    {:source-paths ["src/cljs" "env/prod/cljs"]
      :compiler
      {:output-to "target/cljsbuild/public/js/app.js"
       :output-dir "target/uberjar"
@@ -67,7 +85,7 @@
    :nrepl-port 7002
    :css-dirs ["resources/public/css"]
    :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-  
+
   :profiles
   {:uberjar {:omit-source true
              :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
@@ -90,7 +108,7 @@
                                  [lein-figwheel "0.5.4-3"]
                                  [org.clojure/clojurescript "1.9.76"]]
                   
-                  :source-paths ["env/dev/clj" "test/clj"]
+                  :source-paths ["env/dev/clj" "test/clj" "jar/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user}
                   :injections [(require 'pjstadig.humane-test-output)

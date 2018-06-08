@@ -16,6 +16,5 @@
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (GET "/about" [] (about-page))
-  (GET "/chat" [] (chat-page)))
+  (GET "/about" [] (about-page)))
 

@@ -17,7 +17,7 @@
                 :start
                 (http/start
                   (-> env
-                      (assoc :handler (handler/app))
+                      (assoc :handler handler/app)
                       (update :port #(or (-> env :options :port) %))))
                 :stop
                 (http/stop http-server))
