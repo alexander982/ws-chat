@@ -13,11 +13,11 @@
   [event db tx]
   (try
     (.deleteObjectStore db "messages")
-    (try
-      (.createObjectStore db "messages" #js{:autoIncrement true})
-      (catch js/Error err
-        (println err "ошибка создания хранилища " "message")))
     (catch js/Error err
+      (try
+        (.createObjectStore db "messages" #js{:autoIncrement true})
+        (catch js/Error err
+          (println err "ошибка создания хранилища " "message")))
       (println err "ошибка удаления хранилища " "message"))))
 
 (defn- open-db
