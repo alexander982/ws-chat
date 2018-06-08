@@ -72,11 +72,15 @@
                                                       (.getValue cursor)
                                                       :keywordize-keys true))
                                      (.next cursor))
-                                 (callback @res)))))]
+                                 (callback @res)))))
+            _ (events/listenOnce cursor
+                                 "c" ;;COMPLETE
+                                 (fn [e]
+                                   (events/unlistenByKey key)
+                                   (callback @res)))]
         (-> tx
             (.wait)
             (.addCallback (fn [db]
-                            (println "close db after get-next-messages")
                             (events/unlistenByKey key)
                             (.close db))))))))
 (defn get-last-messages
